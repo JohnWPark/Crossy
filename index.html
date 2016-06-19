@@ -9,8 +9,36 @@
     <h1>CROSSY</h1>
     <canvas width="1420" height=720" id="myCanvas"></canvas>
     <script>
+
+      var x = 10;
+      var y = 10;
+      var width = 20;
+      var height = 30;
+
+      var speed = 2;
+
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
+
+      var update = function() {
+        x = x + speed;
+      };
+
+      var draw = function() {
+        ctx.clearRect(0, 0, 1420, 720);
+        ctx.fillStyle = "rgb(200, 0, 100)";
+        ctx.fillRect(x, y, width, height);
+      };
+
+      var step = function() {
+
+        update();
+        draw();
+
+        window.requestAnimationFrame(step)
+      };
+
+      step();
 
 
     </script>
