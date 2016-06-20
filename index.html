@@ -1,16 +1,20 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no"
     <title>Crossy</title>
     <style>
       canvas {
-        border: 1px solid black;
         width: 100%;
       }
-
+      body {
+        padding: 0;
+        margin: 0;
+        background-color: black;
+      }
     </style>
   </head>
   <body>
-    <h1>CROSSY</h1>
+    <!-- <h1>CROSSY</h1> -->
     <canvas width="640" height="360" id="myCanvas"></canvas>
     <script>
 
@@ -78,6 +82,8 @@
         //event listeners to move player
         canvas.addEventListener("mousedown", movePlayer);
         canvas.addEventListener("mouseup", stopPlayer);
+        canvas.addEventListener("touchstart", movePlayer);
+        canvas.addEventListener("touchend", stopPlayer);
 
         //update the logic
         var update = function() {
