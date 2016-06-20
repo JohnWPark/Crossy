@@ -59,12 +59,25 @@
           speedX: 2,
           w: 40,
           h: 40,
-          isMoving: false
-        }
+          isMoving: false  //keeps track of whether the player is moving or not
+        };
+
+        //make the player move
+        var movePlayer = function() {
+          player.isMoving = true;
+        };
+        //make the player stop
+        var stopPlayer = function() {
+          player.isMoving = false;
+        };
 
         //grab the canvas and context
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
+
+        //event listeners to move player
+        canvas.addEventListener("mousedown", movePlayer);
+        canvas.addEventListener("mouseup", stopPlayer);
 
         //update the logic
         var update = function() {
