@@ -24,7 +24,11 @@
         var GAME_WIDTH = 640;
         var GAME_HEIGHT = 360;
 
+        //keep the game going
         var gameLive = true;
+
+        //current level
+        var level = 1;
 
         //enemies
         var enemies = [
@@ -116,15 +120,30 @@
 
           //check if you've won the game
           if(checkCollision(player, goal)) {
-            //stop the game
-            gameLive = false;
+            // //stop the game
+            // gameLive = false;
+            //
+            // alert("You win!");
+            //
+            // //reload page
+            // window.location = "";
 
-            alert("You win!");
+            level++;
 
-            //reload page
-            window.location = "";
+            player.x = 10;
+            player.y = 160;
 
+            enemies.forEach(function(element, index) {
+              if(element.speedY > 0) {
+                element.speedY++;
+              }
+              else {
+                element.speedY--;
+              }
+            })
           }
+
+
           //update player
           if(player.isMoving) {
             player.x += player.speedX;
