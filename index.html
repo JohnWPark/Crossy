@@ -2,7 +2,11 @@
   <head>
     <title>Crossy</title>
     <style>
-      canvas {border: 1px solid black;}
+      canvas {
+        border: 1px solid black;
+        width: 100%;
+      }
+
     </style>
   </head>
   <body>
@@ -62,17 +66,26 @@
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
 
-      //update the rectangle's position
+      //update the logic
       var update = function() {
 
-        //update the position of each enemy
-        var j = 0;
+        var i = 0;
         var n = enemies.length;
 
-        while(j < n) {
-          enemies[j].y += enemies[j].speedY;
-          j++;
-        }
+        //update the position of all enemies
+        enemies.forEach(function(element, index) {
+          element.y += element.speedY;
+
+          //bouncy borders
+          if(element.y <= 10) {
+            element.y = 10;
+            element.speedY *= -1;
+          }
+          else if(element.y >= GAME_HEIGHT - 50) {
+            element.y = GAME_HEIGHT - 50;
+            element.speedY *= -1;
+          }
+        });
       };
       //show it on screen
       var draw = function() {
@@ -80,13 +93,9 @@
         ctx.fillStyle = "#3333FF";
 
         //draw each enemy
-        var j = 0;
-        var n = enemies.length;
-
-        while(j < n) {
-          ctx.fillRect(enemies[j].x, enemies[j].y, enemies[j].w, enemies[j].h);
-          j++;
-        }
+        enemies.forEach(function(element, index) {
+          ctx.fillRect(element.x, element.y, element.w, element.h);
+        });
       };
 
       var step = function() {
