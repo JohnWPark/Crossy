@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>CROSSY</h1>
-    <canvas width="300" height="300" id="myCanvas"></canvas>
+    <canvas width="640" height="360" id="myCanvas"></canvas>
     <script>
 
       //starting position
@@ -62,61 +62,31 @@
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
 
-      //color zones
-      var blueZone, greenZone;
-
       //update the rectangle's position
       var update = function() {
 
-        var crossedRightLimit = x >= 270;
-        var crossedLeftLimit = x <= 10;
+        //update the position of each enemy
+        var j = 0;
+        var n = enemies.length;
 
-        //check if x surpasses a certain value
-        if(crossedRightLimit) {
-
-          //if so, push back and reverse movement
-          x = 270;
-          speed = -speed;
+        while(j < n) {
+          enemies[j].y += enemies[j].speedY;
+          j++;
         }
-
-        //check if x is getting too close to the left border
-        else if(crossedLeftLimit) {
-
-          //if so, push back and reverse movement
-          x = 10;
-          speed = -speed;
-        }
-
-        if(x >= 100 && x <= 150) {
-          speedY = 1;
-        }
-        else {
-          speedY = 0;
-        }
-
-        x = x + speed;
-        y = y + speedY;
-
-        //define color
-        blueZone = x > 0 && x < 100;
-        greenZone = !blueZone && x < 200;
       };
-
       //show it on screen
       var draw = function() {
-        ctx.clearRect(0, 0, 500, 300);
+        ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        ctx.fillStyle = "#3333FF";
 
-        if(blueZone) {
-          ctx.fillStyle = "#3333FF";
-        }
-        else if(greenZone) {
-          ctx.fillStyle = "#00CC66";
-        }
-        else {
-          ctx.fillStyle = "rgb(200, 0, 100)";
-        }
+        //draw each enemy
+        var j = 0;
+        var n = enemies.length;
 
-        ctx.fillRect(x, y, width, height);
+        while(j < n) {
+          ctx.fillRect(enemies[j].x, enemies[j].y, enemies[j].w, enemies[j].h);
+          j++;
+        }
       };
 
       var step = function() {
