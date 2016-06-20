@@ -7,26 +7,115 @@
   </head>
   <body>
     <h1>CROSSY</h1>
-    <canvas width="1420" height=720" id="myCanvas"></canvas>
+    <canvas width="300" height="300" id="myCanvas"></canvas>
     <script>
 
+      //starting position
       var x = 10;
       var y = 10;
+
+      //rectangle dimensions
       var width = 20;
       var height = 30;
 
+      //speed at which it moves
       var speed = 2;
+      var speedY = 0;
 
+      //constants
+      var GAME_WIDTH = 640;
+      var GAME_HEIGHT = 360;
+
+      //enemies
+      var enemies = [
+        {
+          x: 100,  //x coordinate
+          y: 100,  //y coordinate
+          speedY: 1,  //speed in Y
+          w: 40,  //width
+          h: 40   //height
+        },
+        {
+          x: 260,
+          y: 100,
+          speedY: 2,
+          w: 40,
+          h: 40
+        },
+        {
+          x: 380,
+          y: 100,
+          speedY: 3,
+          w: 40,
+          h: 40
+        },
+        {
+          x: 450,
+          y: 100,
+          speedY: 4,
+          w: 40,
+          h: 40
+        }
+      ];
+
+      //grab the canvas and context
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
 
+      //color zones
+      var blueZone, greenZone;
+
+      //update the rectangle's position
       var update = function() {
+
+        var crossedRightLimit = x >= 270;
+        var crossedLeftLimit = x <= 10;
+
+        //check if x surpasses a certain value
+        if(crossedRightLimit) {
+
+          //if so, push back and reverse movement
+          x = 270;
+          speed = -speed;
+        }
+
+        //check if x is getting too close to the left border
+        else if(crossedLeftLimit) {
+
+          //if so, push back and reverse movement
+          x = 10;
+          speed = -speed;
+        }
+
+        if(x >= 100 && x <= 150) {
+          speedY = 1;
+        }
+        else {
+          speedY = 0;
+        }
+
         x = x + speed;
+        y = y + speedY;
+
+        //define color
+        blueZone = x > 0 && x < 100;
+        greenZone = !blueZone && x < 200;
       };
 
+      //show it on screen
       var draw = function() {
-        ctx.clearRect(0, 0, 1420, 720);
-        ctx.fillStyle = "rgb(200, 0, 100)";
+        ctx.clearRect(0, 0, 500, 300);
+
+        if(blueZone) {
+          ctx.fillStyle = "#3333FF";
+        }
+        else if(greenZone) {
+          ctx.fillStyle = "#00CC66";
+        }
+        else {
+          ctx.fillStyle = "rgb(200, 0, 100)";
+        }
+
         ctx.fillRect(x, y, width, height);
       };
 
